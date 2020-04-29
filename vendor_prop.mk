@@ -182,7 +182,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # NavBar
 #PRODUCT_PROPERTY_OVERRIDES += \
     qemu.hw.mainkeys=1
-    
-# Maintainer
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.havoc.maintainer=LightVortex
