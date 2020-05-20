@@ -29,22 +29,14 @@ import androidx.preference.PreferenceScreen;
 import org.omnirom.device.Preference.OCPreference;
 import org.omnirom.device.Preference.ButtonSwapPreference;
 import org.omnirom.device.Preference.FastChargePreference;
-import org.omnirom.device.Preference.S2SVibratorStrengthPreference;
-import org.omnirom.device.Preference.SpectrumPreference;
-import org.omnirom.device.Preference.SweepToSleepPreference;
 
 import static org.omnirom.device.Preference.OCPreference.ENABLE_OC_KEY;
 import static org.omnirom.device.Preference.ButtonSwapPreference.BUTTONS_SWAP_KEY;
 import static org.omnirom.device.Preference.FastChargePreference.USB_FAST_CHARGE_KEY;
-import static org.omnirom.device.Preference.S2SVibratorStrengthPreference.KEY_S2S_VIBSTRENGTH;
-import static org.omnirom.device.Preference.SpectrumPreference.SPECTRUM_KEY;
-import static org.omnirom.device.Preference.SweepToSleepPreference.S2S_KEY;
 
 public final class DeviceSettings extends PreferenceFragment {
 
     private static final String KEY_CATEGORY_OC = "overclock";
-    private static final String KEY_CATEGORY_DISPLAY = "display";
-    private static final String KEY_CATEGORY_KCAL = "kcal";
     private static final String KEY_CATEGORY_HW_BUTTONS = "hw_buttons";
     private static final String KEY_CATEGORY_USB_FASTCHARGE = "usb_fastcharge";
 
@@ -60,32 +52,11 @@ public final class DeviceSettings extends PreferenceFragment {
         OCPreference mOC = (OCPreference) prefSet.findPreference(ENABLE_OC_KEY);
         ButtonSwapPreference mButtonSwap = (ButtonSwapPreference) prefSet.findPreference(BUTTONS_SWAP_KEY);
         FastChargePreference mFastCharge = (FastChargePreference) findPreference(USB_FAST_CHARGE_KEY);
-        SpectrumPreference mSpectrum = (SpectrumPreference) findPreference(SPECTRUM_KEY);
-        SweepToSleepPreference mSweep = (SweepToSleepPreference) findPreference(S2S_KEY);
-        S2SVibratorStrengthPreference mVibratorStrengthS2S = (S2SVibratorStrengthPreference) findPreference(KEY_S2S_VIBSTRENGTH);
+
 
         mOC.setEnabled(OCPreference.FEATURE.isSupported());
         mButtonSwap.setEnabled(ButtonSwapPreference.FEATURE.isSupported());
         mFastCharge.setEnabled(FastChargePreference.FEATURE.isSupported());
-        mSpectrum.setEnabled(SpectrumPreference.FEATURE.isSupported());
-        mSweep.setEnabled(SweepToSleepPreference.FEATURE.isSupported());
-        mVibratorStrengthS2S.setEnabled(S2SVibratorStrengthPreference.FEATURE.isSupported());
-
-        findPreference(KEY_CATEGORY_KCAL).setEnabled(DisplayCalibration.isSupported());
-
-        if (!isAppInstalled(KEY_DEVICE_DOZE_PACKAGE_NAME)) {
-            PreferenceCategory displayCategory = findPreference(KEY_CATEGORY_DISPLAY);
-            displayCategory.removePreference(findPreference(KEY_DEVICE_DOZE));
-        }
-    }
-
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        if (KEY_CATEGORY_KCAL.equals(preference.getKey())) {
-            DisplayCalibrationActivity.startActivity(getContext());
-            return true;
-        }
-        return super.onPreferenceTreeClick(preference);
     }
 
     private boolean isAppInstalled(String uri) {

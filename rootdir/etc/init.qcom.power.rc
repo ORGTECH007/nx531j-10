@@ -1,4 +1,4 @@
-# Copyright (c) 2016, Code Aurora Forum. All rights reserved.
+# Copyright (c) 2020, Code Aurora Forum. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,9 +30,8 @@ on init
 
     # Drop write bit from cpu_max_freq so that libqti-perfd can't set it
     chmod 0444 /sys/module/msm_performance/parameters/cpu_max_freq
-
-on early-boot
-    # Add a cpuset for the camera daemon
+    
+    # add a cpuset for the camera daemon
     # we want all cores for camera
     mkdir /dev/cpuset/camera-daemon
     write /dev/cpuset/camera-daemon/cpus 0-3
@@ -42,12 +41,18 @@ on early-boot
     chmod 0664 /dev/cpuset/camera-daemon/tasks
 
 on boot
-
+    # bring all cores online
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    
     # Update foreground and background cpusets
     write /dev/cpuset/foreground/cpus 0-3
     write /dev/cpuset/background/cpus 0-3
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/top-app/cpus 0-3
+    write /dev/cpuset/restricted/cpus 0-3
 
     # Enable sched boost
     write /proc/sys/kernel/sched_boost 1
@@ -90,9 +95,10 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/enable_prediction 1
 
-    # Bring CPU2 online
+    # Bring CPU2 & CPU3 online
     write /sys/devices/system/cpu/cpu2/online 1
-
+    write /sys/devices/system/cpu/cpu3/online 1
+    
     # Configure governor settings for big cluster
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/use_sched_load 1
@@ -109,6 +115,22 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/enable_prediction 1
 
+    # Configure governor Settings for Big cluster
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/use_migration_notif 1
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/above_hispeed_delay "19000 1400000:39000 1700000:39000 2100000:79000"
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/go_hispeed_load 90
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/hispeed_freq 1248000
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/target_loads "85 1500000:90 1800000:95 2100000:99"
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/min_sample_time 19000
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/max_freq_hysteresis 39000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 307200
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/ignore_hispeed_on_notif 0
+    write /sys/devices/system/cpu/cpu3/cpufreq/interactive/enable_prediction 1
+    
     # Re-enable thermal hotplug
     write /sys/module/msm_thermal/core_control/enabled 1
 
@@ -165,8 +187,11 @@ on property:sys.boot_completed=1
     # Update cpusets now that boot is complete and we want better load balancing
     write /dev/cpuset/top-app/cpus 0-3
     write /dev/cpuset/foreground/cpus 0-2
-    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/background/cpus 0-1
     write /dev/cpuset/system-background/cpus 0-2
+    
+    # Force enable CPU3
+    write /sys/devices/system/cpu/cpu3/online 1
 
 on property:init.svc.recovery=running
     trigger enable-low-power

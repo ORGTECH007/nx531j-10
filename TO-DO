@@ -1,0 +1,7 @@
+*̶ ̶M̶a̶k̶e̶ ̶A̶u̶t̶o̶ ̶B̶r̶i̶g̶h̶t̶n̶e̶s̶s̶ ̶s̶m̶o̶o̶t̶h̶
+*̶ ̶F̶i̶x̶ ̶s̶t̶a̶t̶u̶s̶b̶a̶r̶ ̶b̶r̶i̶g̶h̶t̶n̶e̶s̶s̶ ̶t̶o̶g̶g̶l̶e̶ ̶
+* Update dpm and CNE from daisy Q
+* Set selinux:Enfocing
+* Nuke time service
+* Fix thermal throttling
+* Set CPU gov to schedutil 

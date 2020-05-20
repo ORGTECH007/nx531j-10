@@ -196,7 +196,7 @@ VENDOR_SECURITY_PATCH := 2020-02-20
 
 # SELinux
 include device/qcom/sepolicy-legacy-um/sepolicy.mk
-BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy/vendor/temp
+BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy/vendor
 
 # Wifi
 BOARD_HAS_QCOM_WLAN := true

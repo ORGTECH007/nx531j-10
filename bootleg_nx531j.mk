@@ -29,7 +29,7 @@ $(call inherit-product, vendor/bootleggers/config/common_full_phone.mk)
 $(call inherit-product, device/nubia/nx531j/msm8996.mk)
 
 # Device identifier. This must come after all inclusions
-PRODUCT_NAME := havoc_nx531j
+PRODUCT_NAME := bootleg_nx531j
 PRODUCT_DEVICE := nx531j
 PRODUCT_BRAND := nubia
 PRODUCT_MODEL := nx531j
@@ -42,17 +42,15 @@ TARGET_VENDOR_DEVICE_NAME := NX531J
 
 PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=NX531J PRODUCT_NAME=NX531J PRODUCT_MODEL=NX531J
 
-# Build Fingerprint
+# Maintainer Prop
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="coral-user 10 QQ2A.200405.005 6254899 release-keys"
+DEVICE_MAINTAINERS="LightVortex"
 
-# Build Fingerprint
+
+#FOR OFFICIAL DEVICES
+BOOTLEGGERS_BUILD_TYPE := Vortex-UNShishufied
+
+# Build info
+BUILD_FINGERPRINT := "google/coral/coral:10/QQ2A.200501.001.A3/6353761:user/release-keys"
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="coral-user 10 QQ2A.200405.005 6254899 release-keys"
-
-#Build FP to be picked by both system and vendor
-BUILD_FINGERPRINT := "google/coral/coral:10/QQ2A.200405.005/6254899:user/release-keys"
-
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.fingerprint=$(BUILD_FINGERPRINT)
+    PRIVATE_BUILD_DESC="coral-user 10 QQ2A.200501.001.A3 6353761 release-keys"

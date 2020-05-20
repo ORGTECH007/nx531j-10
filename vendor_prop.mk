@@ -58,13 +58,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
     vendor.camera.aux.packagelist=com.android.camera,org.lineageos.snap,com.google.android.GoogleCameraTele \
-    vendor.camera.hal1.packagelist=com.whatsapp,com.intsig.camscanner \
     persist.ts.postmakeup=false \
     persist.ts.rtmakeup=false \
     persist.camera.stats.test=5 \
     camera.disable_zsl_mode=1 \
     persist.camera.gyro.disable=0
 
+# Hal1 
+PRODUCT_PROPERTY_OVERRIDES += \
+    camera.hal1.packagelist=com.whatsapp,com.android.camera,com.android.camera2 \
+    vendor.camera.hal1.packagelist= com.whatsapp,com.android.camera,com.android.camera2
 
 # CNE
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -104,7 +107,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.display.disable_skip_validate=1 \
     vendor.display.enable_default_color_mode=1 \
     vendor.display.perf_hint_window=50 \
-    vendor.gralloc.enable_fb_ubwc=1
+    vendor.gralloc.enable_fb_ubwc=1 
 
 # IMS
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -116,6 +119,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.vidc.enc.disable.pq=true \
     debug.stagefright.ccodec=0 \
     vidc.enc.dcvs.extra-buff-count=2
+
 
 # Memory optimizations
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -175,10 +179,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     sys.usb.controller=6a00000.dwc3
 
+# WFD
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.wfd.virtual=0
+
 # Wifi
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
-
-# NavBar
-#PRODUCT_PROPERTY_OVERRIDES += \
-    qemu.hw.mainkeys=1
+    
+# Maintainer
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.havoc.maintainer=LightVortex
